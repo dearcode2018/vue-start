@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<body>
+
+		<div id="app">
+		展示<input type="checkbox" v-model="show" />
+		<p v-show="show">展示出来了</p>	
+		使用自定义组件
+		<runoob></runoob>
+		
+		<!-- 局部组件 -->
+		<sub-child></sub-child>
+	</div>
+
+	<div id="myChild">
+		<somechild message="消息hhh" tip="some tip"></somechild>	
+		<input v-model="parentMsg" />
+		<!-- 通过v-bind:子字段名 对应父对象的名 -->
+		<somechild v-bind:message="parentMsg"></somechild>					
+	</div>
+
+	<div id="myTodo">
+		<ol>
+			<!-- v-bind:todo 指定for循环中的变量 | 注意: 变量名成不要使用驼峰方式，否则无法正常使用 -->
+			<todo v-for="item in sites" v-bind:val="item"></todo>
+		</ol>
+	</div>
+	
+	<div id="dataCheck">
+		<input v-model="name" />	
+		<input v-model="age" />
+		<data-check  v-bind:proname="name"/>		
+		<data-check  v-bind:pronumber="age"/>
+	</div>
+	
+<script>
+// 注意: prop 是单向绑定的：当父组件的属性变化时，将传导给子组件，但是不会反过来。
+// WARNING: 注意，组件名称使用规范的标签名称，不能用驼峰的方式命名，可以用中划线/下划线，建议使用中划线
+// 定义全局组件，定义: 组件名称, {配置选项}
+
+Vue.component('runoob', {
+	template: '<h3>全局自定义组件..</h3>'
+});
+
+// 自定义局部组件
+var Child = {
+	template: '<h3>局部自定义组件..</h3>'
+}
+
+// 通过props 将自定义的组件标签的属性 传入，然后可以在template中使用
+Vue.component('somechild', {
+	props: ['message', 'tip'],
+	template: '<span>{{message}} : {{tip}}</span>'
+});
+
+var myChild = new Vue({
+	el: '#myChild',
+	data: {
+		parentMsg: '父组件内容'
+	}
+});
+
+// 通过props 将自定义的组件标签的属性 传入，然后可以在template中使用
+Vue.component('todo', {
+	props: ['val'],
+	template: '<li>{{ val.text }}</li>'
+});
+
+new Vue({
+	el: '#myTodo',
+	data: {
+		sites: [
+		{ text: 'Runoob' },
+		{ text: 'Google' },
+		{ text: 'Taobao' }
+		]
+	}
+});
+
+// 通过props 将自定义的组件标签的属性 传入，然后可以在template中使用
+Vue.component('data-check', {
+	props: {proname: {type: String, required: true,
+	// 自定义验证函数
+	validator: function (value) {
+        // 这个值必须匹配下列字符串中的一个
+        return ['success', 'warning', 'danger'].indexOf(value) !== -1;
+      }	
+	}, proage: [Number]}
+});
+
+new Vue({
+	el: '#dataCheck',
+	data: {
+		name:'',
+		age: 0,
+	}
+});
+
+
+
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, 
+site:'https://www.baidu.com', type: 'A', show: false};
+var vm = new Vue({
+	el: '#app',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		openDialog: function() {
+			alert(this.name + ", " + this.age + ", " + this.address);
+		},
+		reverseName: function() {
+				this.name = this.name.split('').reverse().join('');
+		}
+	},
+	// 组件
+	components: {
+		'sub-child': Child
+	}
+	
+});
+
+// 修改某个Vue对象的属性
+//vm.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + vm.name);
+
+//document.write("<br>");
+//document.write(vm.$el == document.getElementById('vm'));
+//document.write("<br>");
+//document.write(vm.$data == field);
+</script>
+</body>
+</html>

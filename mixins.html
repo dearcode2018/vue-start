@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		展示<input type="checkbox" v-model="show" />
+		<p v-show="show">展示出来了</p>	
+	</div>
+	<div id="someMixin"></div>
+	
+<script>
+// 全局混入 | 谨慎使用全局混入对象，因为会影响到每个单独创建的 Vue 实例 (包括第三方模板)
+Vue.mixin({
+	created: function() {
+		var myOption = this.$options.myOption;
+		if (myOption) {
+			document.write(myOption);
+		}
+	}
+});
+
+
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, 
+site:'https://www.baidu.com', type: 'A', show: false};
+var vm = new Vue({
+	el: '#app',
+	data: field,
+	//mixins: [someMixin],
+	created: function() {
+		document.write("组件调用");		
+	},	
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		openDialog: function() {
+			alert(this.name + ", " + this.age + ", " + this.address);
+		},
+		reverseName: function() {
+				this.name = this.name.split('').reverse().join('');
+		}
+	},
+	myOption: '哈哈!'
+});
+
+	// 定义一个混入对象
+	var someMixin ={
+		created: function() {
+			this.startMinxin();
+		},
+		methods: {
+			startMinxin: function() {
+				//document.getElementById("someMixin").html("omeMixin 11");
+				document.write("欢迎来到混入实例");
+			}
+		}
+	};
+	
+	var Component = Vue.extend({
+		mixins: [someMixin]
+	});
+	
+	var component = new Component();
+
+// 修改某个Vue对象的属性
+//vm.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + vm.name);
+
+//document.write("<br>");
+//document.write(vm.$el == document.getElementById('vm'));
+//document.write("<br>");
+//document.write(vm.$data == field);
+</script>
+</body>
+</html>

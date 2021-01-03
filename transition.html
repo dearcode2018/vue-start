@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 过渡-动画</title>
+<script src="vue.min.js"></script>
+	<style>
+		/* 可以设置不同的进入和离开动画 */
+		/* 设置持续时间和动画函数 次class的名称前缀以transition name值为前缀 */
+		.fade-enter-active, .fade-leave-active {
+			transition: opacity 2s
+		}
+		.fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
+			opacity: 0
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		展示<input type="checkbox" v-model="show" />
+		<p v-show="show">展示出来了</p>	
+		<button @click="show = !show">Click Me</button>
+		<transition name="fade" duration="1000">
+			<p v-show="show" v-bind:style="styleObj">动画实例</p>
+		</transition>
+	</div>
+
+<script>
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, 
+site:'https://www.baidu.com', type: 'A', show: true, styleObj: {fontSize: '30px', color: 'red'}};
+var vm = new Vue({
+	el: '#app',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		openDialog: function() {
+			alert(this.name + ", " + this.age + ", " + this.address);
+		},
+		reverseName: function() {
+				this.name = this.name.split('').reverse().join('');
+		}
+	}
+});
+
+// 修改某个Vue对象的属性
+//vm.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + vm.name);
+
+//document.write("<br>");
+//document.write(vm.$el == document.getElementById('vm'));
+//document.write("<br>");
+//document.write(vm.$data == field);
+</script>
+</body>
+</html>

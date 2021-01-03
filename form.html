@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+	展示<input type="checkbox" v-model="show" />
+	<p v-show="show">展示出来了</p>
+	<input v-model="message" placeholder="请输入..." />
+	输入结果: {{message}}
+	<!-- 单个复选框 -->
+	<p>单个复选框</p>
+	<input type="checkbox" v-model="cbox1"/>
+	{{cbox1}}
+
+	<!-- 多个复选框 -->	
+	<p>多个复选框</p>
+	<input type="checkbox" value="VAL1" v-model="cboxs"/>VAL1
+	<input type="checkbox" value="VAL2" v-model="cboxs"/>VAL2
+	<input type="checkbox" value="VAL3" v-model="cboxs"/>VAL3	
+	{{cboxs}}	
+	
+	<!-- 单选框 -->	
+	<input type="radio" value="V1" v-model="radio1">单选1
+	<input type="radio" value="V2" v-model="radio1">单选2	
+	{{radio1}}
+	
+	<!-- 下拉框 -->
+	<select v-model="select1" name="fruit">
+		<option value="selectItem">请选择</option>
+		<option value="apple">苹果</option>
+		<option value="orang">桔子</option>		
+	</select>
+	下拉选择: {{select1}}
+	
+	<!-- 自动转换数字类型 | 这通常很有用，因为在 type="number" 时 HTML 中输入的值也总是会返回字符串类型。
+	type="number" UI显示为可调节的数字 H5的特性
+	-->
+	<input v-model.number="sNumber" type="number" />
+	{{sNumber}}
+	<br />
+	<!-- 自动过滤用户输入的首尾空格 -->
+	<input v-model.trim="sVal" />
+	{{sVal}}
+
+	<br />	
+	<!-- lazy -->
+	<!-- 在 "change" 而不是 "input" 事件中更新 | 输入不立即生效显示，而是等待其他任何事件发生 -->
+	<input v-model.lazy="sLazyVal" />
+	{{sLazyVal}}
+	<!--  -->
+
+	<!--  -->
+	<!--  -->
+
+	<!--  -->
+	<!--  -->
+
+	<!--  -->
+	<!--  -->
+
+	<!--  -->	
+</div>
+
+<script>
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, 
+site:'https://www.baidu.com', type: 'A', show: false, message: '', cbox1: false, cboxs: ['VAL2'], radio1:'V2',
+select1:'apple',
+sNumber: 0,
+sVal:'',
+sLazyVal:''
+};
+var vm = new Vue({
+	el: '#app',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		openDialog: function() {
+			alert(this.name + ", " + this.age + ", " + this.address);
+		},
+		reverseName: function() {
+				this.name = this.name.split('').reverse().join('');
+		}
+	}
+});
+
+// 修改某个Vue对象的属性
+//vm.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + vm.name);
+
+//document.write("<br>");
+//document.write(vm.$el == document.getElementById('vm'));
+//document.write("<br>");
+//document.write(vm.$data == field);
+</script>
+</body>
+</html>

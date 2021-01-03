@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+	展示<input type="checkbox" v-model="show" />
+	<p v-show="show">展示出来了</p>	
+	<p>原始字段 {{address}}</p>
+	<p>使用computed字段: {{addressComputed}}</p>	
+	<p>{{tag}}</p>
+	<p>{{site}}</p>	
+</div>
+
+<script>
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, 
+site:'https://www.baidu.com', type: 'A', show: false};
+var vm = new Vue({
+	el: '#app',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		openDialog: function() {
+			alert(this.name + ", " + this.age + ", " + this.address);
+		},
+		reverseName: function() {
+				this.name = this.name.split('').reverse().join('');
+		}
+	},
+	// 基于依赖的缓存，和method调用渲染有所不同，computed有缓存，性能更好
+	computed: {
+	   // 相当于提供了getter方法
+		addressComputed: function() {
+			return this.address.split('').reverse().join('');
+		},
+		
+		// 提供setter方法和getter方法
+		tag: {
+			// getter方法
+			get: function() {
+				return this.tag;
+			},
+			// setter方法
+			set: function(newValue) {
+				this.tag = newValue;
+				// 也可以修改其他字段的值
+				this.site = 'new site';
+			}
+		}
+		
+	}
+});
+
+// 调用 address 的 setter方法 | 经过验证，vm.tag 并没有调用 setter方法
+vm.tag = '桂林';
+// 修改某个Vue对象的属性
+//vm.age = 22;
+document.writeln("document.write 输出: " + vm.site);
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + vm.name);
+
+//document.write("<br>");
+//document.write(vm.$el == document.getElementById('vm'));
+//document.write("<br>");
+//document.write(vm.$data == field);
+</script>
+</body>
+</html>

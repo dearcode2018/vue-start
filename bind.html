@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<style>
+.class1{
+  background: #444;
+  color: #eee;
+}
+.greenStyle {
+	width: 100px;
+	height: 100px;
+	background: green;
+}
+
+.active {
+	width: 100px;
+	height: 100px;
+	background: green;
+}
+.text-danger {
+	background: red;
+}
+</style>
+<body>
+
+<div id="app">
+	<label for="r1">修改颜色</label><input type="checkbox" v-model="use" id="r1" />
+	<!--
+		v-bind:href 对应缩写 :href
+		v-on:click 对应的缩写 @click
+	
+	-->
+	<!-- 	<p v-html="name" v-bind:class="{'class1':!use}"></p>	 -->
+	<p v-html="name" v-bind:class="{'class1':use}"></p>
+	<button @click="changeStyle">切换样式</button>
+	<div v-bind:class="{'greenStyle':show}">原始</div>
+	<p v-html="address"></p>
+	<p v-html="tag"></p>	
+	<div v-bind:class="classObject">原始</div>	
+	<!-- 传入数组 -->
+	<div v-bind:class="[activeClass, errorClass]">绑定数组样式</div>
+
+	<button @click="danger">危险</button>	
+	<button @click="giveUpDanger">解除</button>		
+	<!-- 三元表达式 -->
+	<div v-bind:class="[activeClass, isActive ? errorClass : '']">三元表达式</div>	
+	<!-- 内联样式 -->
+	<div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">内联样式</div>	
+	<div v-bind:style="styleObject">样式对象</div>	
+	
+</div>
+
+<script>
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, show: false,
+    activeClass: 'active',
+    errorClass: 'text-danger',
+	isActive: false,
+    activeColor: 'green',
+	fontSize: 30,
+    styleObject: {
+      color: 'green',
+      fontSize: '30px'
+    }	
+};
+var app = new Vue({
+	el: '#app',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		changeStyle: function() {
+			if (this.show) {
+				this.show = false;
+			} else {
+				this.show = true;
+			}
+		},
+		danger: function() {
+			this.isActive = true;
+		},
+		giveUpDanger: function() {
+			this.isActive = false;
+		},
+	},
+	computed: {
+		classObject: function() {
+		var show = true;
+		return {'greenStyle':show};
+		}
+	
+	}
+});
+
+// 修改某个Vue对象的属性
+//app.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + app.name);
+
+//document.write("<br>");
+//document.write(app.$el == document.getElementById('app'));
+//document.write("<br>");
+//document.write(app.$data == field);
+
+</script>
+</body>
+</html>

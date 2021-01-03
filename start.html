@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <p>{{ message }}</p>
+  <p>{{ message.info }}</p>  
+  <h3>{{details('小头')}}</h3>
+</div>
+
+
+
+<div id="info">
+	<h3>姓名: {{name}}</h3>
+	<p>详细信息: {{show()}}</p>
+</div>
+
+<script>
+var field = {name:'李四', age: 12, address: '广东省广州市'};
+var info = new Vue({
+	el: '#info',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		}
+	}
+});
+
+// 修改某个Vue对象的属性
+info.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+document.writeln("document.write 输出: " + info.name);
+
+document.write("<br>");
+document.write(info.$el == document.getElementById('info'));
+document.write("<br>");
+document.write(info.$data == field);
+
+var vm = new Vue({
+  el: '#app',
+  data: {
+    message: {
+		info: 'Hello Vue.js!'
+	},
+	name: '张三'
+  },
+  methods: {
+	details: function(nickname) {
+		return this.name + ' 的昵称: ' + nickname;
+	}
+  }
+})
+</script>
+</body>
+</html>

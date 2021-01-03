@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+	展示<input type="checkbox" v-model="show" />
+	<p v-show="show">展示出来了</p>	
+	<button @click="happen">原生事件</button>
+	<!-- 	<input @keyup.enter="" /> 完整写法: v-on:keyup -->
+	回车键: <input @keyup.enter="enterEvent" />
+	按键输入: <input @keyup="keyUpEvent" />
+
+	<button @click.once="happen">只能点击一次</button>
+	<button @click.stop="happen">阻止单击事件冒泡</button>	
+	<!-- 只当事件在该元素本身时（而不是子元素）触发回调 -->
+	<div @click.self="doThat">2</div>
+</div>
+
+<script>
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, 
+site:'https://www.baidu.com', type: 'A', show: false};
+var vm = new Vue({
+	el: '#app',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		openDialog: function() {
+			alert(this.name + ", " + this.age + ", " + this.address);
+		},
+		reverseName: function() {
+				this.name = this.name.split('').reverse().join('');
+		},
+		happen: function(event) {
+			// event 原生事件对象
+			alert(event.target.tagName);
+		},
+		enterEvent: function(event) {
+			alert(event.target.value);
+		},
+		keyUpEvent: function(event) {
+			alert(event.target.value);
+		},
+		doThat: function(event) {
+			alert(event.target.tagName);
+		},
+	}
+});
+/*
+.enter
+.tab
+.delete (捕获 "删除" 和 "退格" 键)
+.esc
+.space
+.up
+.down
+.left
+.right
+.ctrl
+.alt
+.shift
+.meta
+*/
+// 直接调用
+//vm.happen();
+
+// 修改某个Vue对象的属性
+//vm.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + vm.name);
+
+//document.write("<br>");
+//document.write(vm.$el == document.getElementById('vm'));
+//document.write("<br>");
+//document.write(vm.$data == field);
+</script>
+</body>
+</html>

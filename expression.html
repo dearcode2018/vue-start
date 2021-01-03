@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例</title>
+<script src="vue.min.js"></script>
+</head>
+<style>
+.class1{
+  background: #444;
+  color: #eee;
+}
+</style>
+<body>
+
+<div id="app">
+	{{5 + 10}}
+	{{use ? 'YES' : 'NO'}}
+	<!-- 字符串函数: split()/reverse()/join() -->
+	{{address.split('').reverse().join('')}}
+	<p v-html="name"></p>
+	<p v-html="address"></p>
+	<p v-html="tag"></p>
+	<input type="checkbox" v-model="use" />	
+	<p v-if="use">使用了某些功能</p>
+	<a v-bind:href="site">主页</a>
+	<button v-on:click="openDialog">按钮啊</button>
+	<button v-on:click="reverseName">反转名称</button>	
+	<input v-model="site" />
+	<p v-html="site"></p>	
+	<form v-on:submit.prevent="onSubmit">	<button type="submit">提交</button></form>
+</div>
+
+<script>
+var field = {name:'李四', age: 12, address: '广东省广州市', tag: '<h2>标签</h2>', use: false, site:'https://www.baidu.com'};
+var app = new Vue({
+	el: '#app',
+	data: field,
+	methods: {
+		show: function() {
+			return this.name + ", " + this.age + ", " + this.address;
+		},
+		openDialog: function() {
+			alert(this.name + ", " + this.age + ", " + this.address);
+		},
+		reverseName: function() {
+				this.name = this.name.split('').reverse().join('');
+		}
+	}
+});
+
+// 修改某个Vue对象的属性
+//app.age = 22;
+
+/* 用内置对象 document write方法来输出 */
+//document.writeln("document.write 输出: " + app.name);
+
+//document.write("<br>");
+//document.write(app.$el == document.getElementById('app'));
+//document.write("<br>");
+//document.write(app.$data == field);
+
+</script>
+</body>
+</html>
