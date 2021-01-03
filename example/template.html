@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue实例</title>
+		<script src="../js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="main">
+			
+		</div>
+
+		<script>
+			var field = {name:''};
+			var vm = new Vue({
+				el: '#main',
+				data: field,
+				methods: {
+				}
+			});
+
+			// 修改某个Vue对象的属性
+			//vm.age = 22;
+
+			/* 用内置对象 document write方法来输出 */
+			//document.writeln("document.write 输出: " + vm.name);
+
+			//document.write("<br>");
+			//document.write(vm.$el == document.getElementById('vm'));
+			//document.write("<br>");
+			//document.write(vm.$data == field);
+		</script>
+	</body>
+</html>
